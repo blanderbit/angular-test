@@ -1,0 +1,26 @@
+<div>
+    <form (ngSubmit)="onSubmit()" [formGroup]="form">
+        <div *ngFor="let option of formOptions" class="form-row">
+            <mat-form-field appearance="fill" floatLabel="always">
+                <mat-label>{{ option.label }}</mat-label>
+                <input
+                    [formControlName]="option.name"
+                    matInput
+                    required
+                    [placeholder]="option.label"
+                    type="text"
+                >
+                <mat-error *ngIf="form.controls[option.name].hasError('required')">
+                    {{ option.label }} is required
+                </mat-error>
+                <ng-container *ngFor="let rule of option.validations" class="form-row">
+                    <mat-error *ngIf="form.controls[option.name].hasError(rule.name)">
+                        {{ rule.message }}
+                    </mat-error>
+                </ng-container>
+            </mat-form-field>
+        </div>
+
+        <ng-content select=".action"></ng-content>
+    </form>
+</div>
